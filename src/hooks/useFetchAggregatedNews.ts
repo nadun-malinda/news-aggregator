@@ -1,27 +1,18 @@
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
 import {
   Article,
   useFetchGuardianNewsQuery,
   useFetchNewsAPIQuery,
   useFetchNYTNewsQuery,
 } from "@/services/newsApi";
-import { useEffect } from "react";
 
 export function useFetchAggregatedNews(): Article[] {
-  const { data: nytNews } = useFetchNYTNewsQuery("ukrain");
-  const { data: newsApiNews } = useFetchNewsAPIQuery("ukrain");
-  const { data: guardianNews } = useFetchGuardianNewsQuery("ukrain");
+  const query = useSelector((state: RootState) => state.search.query);
 
-  useEffect(() => {
-    console.log(">>> nytNews: ", nytNews);
-  }, [nytNews]);
-
-  useEffect(() => {
-    console.log(">>> guardianNews: ", guardianNews);
-  }, [guardianNews]);
-
-  useEffect(() => {
-    console.log(">>> newsApiNews: ", newsApiNews);
-  }, [newsApiNews]);
+  const { data: nytNews } = useFetchNYTNewsQuery(query);
+  const { data: newsApiNews } = useFetchNewsAPIQuery(query);
+  const { data: guardianNews } = useFetchGuardianNewsQuery(query);
 
   // spread and return all news in a single array
   return [...(guardianNews ?? []), ...(nytNews ?? []), ...(newsApiNews ?? [])];

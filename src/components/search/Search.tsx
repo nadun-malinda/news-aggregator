@@ -1,23 +1,16 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
-import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setQuery } from "@/state/searchSlice";
 
 export function Search() {
-  const [searchText, setSearchText] = useState("");
+  const dispatch = useDispatch();
+
   const debouncedCallback = useDebouncedCallback(
-    ({ searchText }: { searchText: string }) =>
-      setSearchWithDebounce({ searchText }),
+    ({ searchText }: { searchText: string }) => dispatch(setQuery(searchText)),
     1000
   );
-
-  useEffect(() => {
-    console.log(">>> searchText: ", searchText);
-  }, [searchText]);
-
-  const setSearchWithDebounce = ({ searchText }: { searchText: string }) => {
-    setSearchText(searchText);
-  };
 
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     debouncedCallback({ searchText: e.target.value });

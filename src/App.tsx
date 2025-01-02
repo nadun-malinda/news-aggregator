@@ -1,5 +1,6 @@
 import { Search } from "@/components/search/Search";
 import { NewsFeed } from "./components/news-feed/NewsFeed";
+import { Suspense } from "react";
 
 function App() {
   return (
@@ -8,8 +9,10 @@ function App() {
 
       <Search />
 
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-2 my-4">
-        <NewsFeed />
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 my-4">
+        <Suspense fallback={<div>Loading...</div>}>
+          <NewsFeed />
+        </Suspense>
       </div>
     </div>
   );

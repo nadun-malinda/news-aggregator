@@ -20,7 +20,7 @@ export const newsApi = createApi({
       query: (query: string) => ({
         url: process.env.REACT_APP_NEWSAPI_URL || "",
         params: {
-          q: query,
+          q: query || "all",
           apiKey: process.env.REACT_APP_NEWSAPI_KEY,
           pageSize: 10,
         },
@@ -90,7 +90,9 @@ export const newsApi = createApi({
           source: "The New York Times",
           title: article.headline.main,
           content: article.abstract,
-          image: `https://www.nytimes.com/${article.multimedia[0]?.url}`,
+          image:
+            article.multimedia[0]?.url &&
+            `https://www.nytimes.com/${article.multimedia[0]?.url}`,
           author: article.byline.original,
           category: article.section_name,
           publishedAt: article.pub_date,
