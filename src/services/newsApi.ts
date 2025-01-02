@@ -16,11 +16,11 @@ export const newsApi = createApi({
   reducerPath: "newsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/" }),
   endpoints: (builder) => ({
-    fetchNewsAPI: builder.query<Article, string>({
-      query: () => ({
+    fetchNewsAPI: builder.query<Article[], string>({
+      query: (query: string) => ({
         url: process.env.REACT_APP_NEWSAPI_URL || "",
         params: {
-          q: "technology",
+          q: query,
           apiKey: process.env.REACT_APP_NEWSAPI_KEY,
           pageSize: 10,
         },
@@ -41,7 +41,7 @@ export const newsApi = createApi({
     }),
 
     fetchGuardianNews: builder.query<Article[], string>({
-      query: () => ({
+      query: (query: string) => ({
         url: process.env.REACT_APP_GUARDIAN_API_URL || "",
         params: {
           "api-key": process.env.REACT_APP_GUARDIAN_API_KEY,
@@ -49,7 +49,7 @@ export const newsApi = createApi({
           "show-blocks": "all",
           "page-size": 10,
           "order-by": "newest",
-          q: "technology",
+          q: query,
           section: "technology",
           "from-date": "2021-01-01",
           "to-date": "2021-12-31",
@@ -72,9 +72,10 @@ export const newsApi = createApi({
     }),
 
     fetchNYTNews: builder.query<Article[], string>({
-      query: () => ({
+      query: (query: string) => ({
         url: process.env.REACT_APP_NYT_API_URL || "",
         params: {
+          query: query,
           "api-key": process.env.REACT_APP_NYT_API_KEY,
           fq: "technology",
           sort: "newest",
