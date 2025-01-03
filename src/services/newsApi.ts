@@ -29,7 +29,7 @@ export const newsApi = createApi({
         from: string;
         to: string;
         category?: CategoryId;
-        sources?: SourceId[];
+        sources: SourceId[];
       }
     >({
       queryFn: async (
@@ -38,6 +38,10 @@ export const newsApi = createApi({
         _extraOptions,
         fetchWithBQ
       ) => {
+        if (!sources.includes(SourcesEnum["bbc-news"])) {
+          return { data: [] };
+        }
+
         const result: any = await fetchWithBQ({
           url: process.env.REACT_APP_NEWSAPI_URL || "",
           params: {
@@ -137,11 +141,12 @@ export const newsApi = createApi({
           params: {
             query: query,
             "api-key": process.env.REACT_APP_NYT_API_KEY,
-            fq: category,
+            // fq: `source:("The New York Times") AND section_name:("Business")`,
+            section_name: category,
             sort: "newest",
             page: 0,
             begin_date: from,
-            end_date: to,
+            // end_date: to,
           },
         });
 

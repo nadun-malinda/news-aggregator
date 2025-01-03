@@ -14,7 +14,7 @@ export function normaliseNYTNewsData(data: any[]): Article[] {
       article.multimedia[0]?.url &&
       `https://www.nytimes.com/${article.multimedia[0]?.url}`,
     author: article.byline.original,
-    category: article.section_name,
+    category: article.news_desk,
     publishedAt: article.pub_date,
     url: article.web_url,
   }));
