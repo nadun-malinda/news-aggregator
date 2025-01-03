@@ -1,6 +1,6 @@
 export type CategoryId = (typeof CATEGORIES)[number]["id"];
 
-export const enum CATEGORY_ID {
+export const enum CategoryEnum {
   "all" = "all",
   "business" = "business",
   "entertainment" = "entertainment",
@@ -13,35 +13,35 @@ export const enum CATEGORY_ID {
 
 export const CATEGORIES = [
   {
-    id: CATEGORY_ID["all"],
+    id: CategoryEnum["all"],
     name: "All",
   },
   {
-    id: CATEGORY_ID["business"],
+    id: CategoryEnum["business"],
     name: "Business",
   },
   {
-    id: CATEGORY_ID["entertainment"],
+    id: CategoryEnum["entertainment"],
     name: "Entertainment",
   },
   {
-    id: CATEGORY_ID["general"],
+    id: CategoryEnum["general"],
     name: "General",
   },
   {
-    id: CATEGORY_ID["health"],
+    id: CategoryEnum["health"],
     name: "Health",
   },
   {
-    id: CATEGORY_ID["science"],
+    id: CategoryEnum["science"],
     name: "Science",
   },
   {
-    id: CATEGORY_ID["sports"],
+    id: CategoryEnum["sports"],
     name: "Sports",
   },
   {
-    id: CATEGORY_ID["technology"],
+    id: CategoryEnum["technology"],
     name: "Technology",
   },
 ] as const;

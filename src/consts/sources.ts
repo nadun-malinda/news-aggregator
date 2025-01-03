@@ -1,6 +1,7 @@
 export type SourceId = (typeof SOURCES)[number]["id"];
 
 export const enum SourcesEnum {
+  "all" = "all",
   "nyt" = "nyt",
   "bbc-news" = "bbc-news",
   "guardian" = "guardian",

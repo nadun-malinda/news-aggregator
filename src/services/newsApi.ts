@@ -1,5 +1,5 @@
-import { CATEGORY_ID, CategoryId } from "@/consts/categories";
-import { type SourceId, type Source } from "@/consts/sources";
+import { CategoryEnum, CategoryId } from "@/consts/categories";
+import { type SourceId, type Source, SourcesEnum } from "@/consts/sources";
 import { filterNewsAPIBySource } from "@/lib/utils/filterNewsAPIBySource";
 import { normaliseGuardianNewsData } from "@/lib/utils/normaliseGuardianNewsData";
 import { normaliseNewsAPIData } from "@/lib/utils/normaliseNewsAPIData";
@@ -32,22 +32,55 @@ export const newsApi = createApi({
         source?: SourceId;
       }
     >({
-      query: ({ query, from, to, category }) => ({
-        url: process.env.REACT_APP_NEWSAPI_URL || "",
-        params: {
-          q: query || "all",
-          apiKey: process.env.REACT_APP_NEWSAPI_KEY,
-          pageSize: 10,
-          sortBy: "publishedAt",
-          startDate: from,
-          // endDate: to,
-          category: category === CATEGORY_ID["all"] ? "" : category,
-        },
-      }),
-      transformResponse: (response: any, _, { source }) => {
-        const normalisedData = normaliseNewsAPIData(response.articles);
-        return filterNewsAPIBySource(normalisedData, source);
+      queryFn: async (
+        { query, from, to, category, source },
+        _queryApi,
+        _extraOptions,
+        fetchWithBQ
+      ) => {
+        console.log(">>> source: ", source);
+        if (!source?.includes(SourcesEnum["bbc-news"])) {
+          return { data: [] };
+        }
+
+        const result: any = await fetchWithBQ({
+          url: process.env.REACT_APP_NEWSAPI_URL || "",
+          params: {
+            q: query || "all",
+            apiKey: process.env.REACT_APP_NEWSAPI_KEY,
+            pageSize: 10,
+            sortBy: "publishedAt",
+            startDate: from,
+            category: category === CategoryEnum["all"] ? "" : category,
+          },
+        });
+
+        if (result.error) {
+          return { error: result.error };
+        }
+
+        console.log(">>> RESUKLT: ", result);
+        const normalisedData = normaliseNewsAPIData(result.data.articles);
+        return {
+          data: filterNewsAPIBySource(normalisedData, source),
+        };
       },
+      // query: ({ query, from, to, category }) => ({
+      //   url: process.env.REACT_APP_NEWSAPI_URL || "",
+      //   params: {
+      //     q: query || "all",
+      //     apiKey: process.env.REACT_APP_NEWSAPI_KEY,
+      //     pageSize: 10,
+      //     sortBy: "publishedAt",
+      //     startDate: from,
+      //     // endDate: to,
+      //     category: category === CATEGORY_ID["all"] ? "" : category,
+      //   },
+      // }),
+      // transformResponse: (response: any, _, { source }) => {
+      //   const normalisedData = normaliseNewsAPIData(response.articles);
+      //   return filterNewsAPIBySource(normalisedData, source);
+      // },
     }),
 
     fetchGuardianNews: builder.query<
@@ -73,7 +106,7 @@ export const newsApi = createApi({
           "show-tags": "all",
         } as any;
 
-        if (category !== CATEGORY_ID["all"]) {
+        if (category !== CategoryEnum["all"]) {
           params.section = category;
         }
 

@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { SOURCES, type SourceId } from "@/consts/sources";
-import { CATEGORIES, CATEGORY_ID, type CategoryId } from "@/consts/categories";
+import { CATEGORIES, CategoryEnum, type CategoryId } from "@/consts/categories";
 import { useEffect } from "react";
 
 const FormSchema = z.object({
@@ -34,7 +34,7 @@ export function Filters() {
     defaultValues: {
       date: startOfToday(),
       sources: SOURCES.map((source) => source.id),
-      category: CATEGORY_ID["all"],
+      category: CategoryEnum["all"],
     },
   });
 

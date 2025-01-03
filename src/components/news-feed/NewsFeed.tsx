@@ -1,9 +1,9 @@
-import { useFetchAggregatedNews } from "@/hooks/useFetchAggregatedNews";
+import { useAggregatedNews } from "@/hooks/useAggregatedNews";
 import { format } from "date-fns";
 import { useEffect } from "react";
 
 export function NewsFeed() {
-  const { data: news, isFetching } = useFetchAggregatedNews();
+  const { data: news, isFetching } = useAggregatedNews();
 
   useEffect(() => {
     console.log(">>> news: ", news);
