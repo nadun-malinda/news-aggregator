@@ -1,8 +1,14 @@
+import { CATEGORY_ID, CategoryId } from "@/consts/categories";
+import { type SourceId, type Source } from "@/consts/sources";
+import { filterNewsAPIBySource } from "@/lib/utils/filterNewsAPIBySource";
+import { normaliseGuardianNewsData } from "@/lib/utils/normaliseGuardianNewsData";
+import { normaliseNewsAPIData } from "@/lib/utils/normaliseNewsAPIData";
+import { normaliseNYTNewsData } from "@/lib/utils/normaliseNYTNewsData";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Article {
   id: string;
-  source: string;
+  source: Source;
   title: string;
   content: string | null;
   image: string | null;
@@ -16,88 +22,95 @@ export const newsApi = createApi({
   reducerPath: "newsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/" }),
   endpoints: (builder) => ({
-    fetchNewsAPI: builder.query<Article[], string>({
-      query: (query: string) => ({
+    fetchNewsAPI: builder.query<
+      Article[],
+      {
+        query: string;
+        from: string;
+        to: string;
+        category?: CategoryId;
+        source?: SourceId;
+      }
+    >({
+      query: ({ query, from, to, category }) => ({
         url: process.env.REACT_APP_NEWSAPI_URL || "",
         params: {
           q: query || "all",
           apiKey: process.env.REACT_APP_NEWSAPI_KEY,
           pageSize: 10,
+          sortBy: "publishedAt",
+          startDate: from,
+          // endDate: to,
+          category: category === CATEGORY_ID["all"] ? "" : category,
         },
       }),
-      transformResponse: (response: any) => {
-        return response.articles.map((article: any) => ({
-          id: crypto.randomUUID(),
-          source: article.source.name,
-          title: article.title,
-          content: article.description,
-          image: article.urlToImage,
-          author: article.author,
-          category: article.source.name,
-          publishedAt: article.publishedAt,
-          url: article.url,
-        }));
+      transformResponse: (response: any, _, { source }) => {
+        const normalisedData = normaliseNewsAPIData(response.articles);
+        return filterNewsAPIBySource(normalisedData, source);
       },
     }),
 
-    fetchGuardianNews: builder.query<Article[], string>({
-      query: (query: string) => ({
-        url: process.env.REACT_APP_GUARDIAN_API_URL || "",
-        params: {
+    fetchGuardianNews: builder.query<
+      Article[],
+      {
+        query: string;
+        from: string;
+        to: string;
+        category?: CategoryId;
+        source?: SourceId;
+      }
+    >({
+      query: ({ query, from, to, category }) => {
+        let params = {
           "api-key": process.env.REACT_APP_GUARDIAN_API_KEY,
           "show-fields": "all",
           "show-blocks": "all",
           "page-size": 10,
           "order-by": "newest",
           q: query,
-          section: "technology",
-          "from-date": "2021-01-01",
-          "to-date": "2021-12-31",
+          "from-date": from,
+          // "to-date": to,
           "show-tags": "all",
-        },
-      }),
+        } as any;
+
+        if (category !== CATEGORY_ID["all"]) {
+          params.section = category;
+        }
+
+        return {
+          url: process.env.REACT_APP_GUARDIAN_API_URL || "",
+          params,
+        };
+      },
       transformResponse: (response: any) => {
-        return response.response.results.map((article: any) => ({
-          id: crypto.randomUUID(),
-          source: "The Guardian",
-          title: article.webTitle,
-          content: article.fields.bodyText,
-          image: article.fields.thumbnail,
-          author: article.fields.byline,
-          category: article.sectionName,
-          publishedAt: article.webPublicationDate,
-          url: article.webUrl,
-        }));
+        return normaliseGuardianNewsData(response.response.results);
       },
     }),
 
-    fetchNYTNews: builder.query<Article[], string>({
-      query: (query: string) => ({
+    fetchNYTNews: builder.query<
+      Article[],
+      {
+        query: string;
+        from: string;
+        to: string;
+        category?: CategoryId;
+        source?: SourceId;
+      }
+    >({
+      query: ({ query, from, to, category }) => ({
         url: process.env.REACT_APP_NYT_API_URL || "",
         params: {
           query: query,
           "api-key": process.env.REACT_APP_NYT_API_KEY,
-          fq: "technology",
+          fq: category,
           sort: "newest",
           page: 0,
-          begin_date: "20210101",
-          end_date: "20211231",
+          begin_date: from,
+          end_date: to,
         },
       }),
       transformResponse: (response: any) => {
-        return response.response.docs.map((article: any) => ({
-          id: crypto.randomUUID(),
-          source: "The New York Times",
-          title: article.headline.main,
-          content: article.abstract,
-          image:
-            article.multimedia[0]?.url &&
-            `https://www.nytimes.com/${article.multimedia[0]?.url}`,
-          author: article.byline.original,
-          category: article.section_name,
-          publishedAt: article.pub_date,
-          url: article.web_url,
-        }));
+        return normaliseNYTNewsData(response.response.docs);
       },
     }),
   }),

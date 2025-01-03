@@ -6,14 +6,56 @@ import {
   useFetchNewsAPIQuery,
   useFetchNYTNewsQuery,
 } from "@/services/newsApi";
+import { useLocation } from "react-router-dom";
+import { SourcesEnum } from "@/consts/sources";
+import { sortByDate } from "@/lib/utils/sort";
 
-export function useFetchAggregatedNews(): Article[] {
+export function useFetchAggregatedNews(): {
+  data: Article[];
+  isFetching: boolean;
+} {
   const query = useSelector((state: RootState) => state.search.query);
+  const filters = useSelector((state: RootState) => state.filters);
+  const location = useLocation();
 
-  const { data: nytNews } = useFetchNYTNewsQuery(query);
-  const { data: newsApiNews } = useFetchNewsAPIQuery(query);
-  const { data: guardianNews } = useFetchGuardianNewsQuery(query);
+  const { from, to, category, sources } = filters;
+
+  const { data: nytNews, isFetching: isFetchingNYTNews } = useFetchNYTNewsQuery(
+    {
+      query,
+      from,
+      to,
+      category,
+    }
+  );
+  const { data: newsApiNews, isFetching: isFetchingNewsApiNews } =
+    useFetchNewsAPIQuery({
+      query,
+      from,
+      to,
+      category,
+      source:
+        location.pathname === "/search" &&
+        sources.includes(SourcesEnum["bbc-news"])
+          ? SourcesEnum["bbc-news"]
+          : undefined,
+    });
+  const { data: guardianNews, isFetching: isFetchingGuardianNews } =
+    useFetchGuardianNewsQuery({
+      query,
+      from,
+      to,
+      category,
+    });
 
   // spread and return all news in a single array
-  return [...(guardianNews ?? []), ...(nytNews ?? []), ...(newsApiNews ?? [])];
+  return {
+    data: sortByDate(
+      [...(nytNews ?? []), ...(guardianNews ?? []), ...(newsApiNews ?? [])],
+      "publishedAt",
+      "desc"
+    ),
+    isFetching:
+      isFetchingNYTNews || isFetchingNewsApiNews || isFetchingGuardianNews,
+  };
 }
