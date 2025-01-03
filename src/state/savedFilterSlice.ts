@@ -1,5 +1,5 @@
 import { CategoryEnum, CategoryId } from "@/consts/categories";
-import { SourceId } from "@/consts/sources";
+import { SourceId, SourcesEnum } from "@/consts/sources";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface SavedFilter {
@@ -10,7 +10,11 @@ interface SavedFilter {
 
 const initialState: SavedFilter = {
   category: CategoryEnum["all"],
-  sources: [],
+  sources: [
+    SourcesEnum["nyt"],
+    SourcesEnum["bbc-news"],
+    SourcesEnum["guardian"],
+  ],
   authors: [],
 };
 

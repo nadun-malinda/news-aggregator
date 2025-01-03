@@ -1,24 +1,17 @@
-import { RootState } from "@/state/store";
-import { useSelector } from "react-redux";
+import { useFilters } from "@/hooks/useFilters";
 import { useFetchNYTNewsQuery } from "@/services/newsApi";
-import { useEffect } from "react";
 
 export function useNYTNewsData() {
-  const query = useSelector((state: RootState) => state.search.query);
-  const filters = useSelector((state: RootState) => state.filters);
+  const { from, to, query, sources, category } = useFilters();
 
-  const { from, to, category } = filters;
   const { data: nytNewsData, isFetching: isFetchingNYTNews } =
     useFetchNYTNewsQuery({
-      query,
-      from,
       to,
+      from,
+      query,
+      sources,
       category,
     });
-
-  useEffect(() => {
-    console.log(">>> NYT News Data: ", nytNewsData);
-  }, [nytNewsData]);
 
   return { nytNewsData, isFetchingNYTNews };
 }

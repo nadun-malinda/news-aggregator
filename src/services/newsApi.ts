@@ -29,20 +29,15 @@ export const newsApi = createApi({
         from: string;
         to: string;
         category?: CategoryId;
-        source?: SourceId;
+        sources?: SourceId[];
       }
     >({
       queryFn: async (
-        { query, from, to, category, source },
+        { query, from, to, category, sources },
         _queryApi,
         _extraOptions,
         fetchWithBQ
       ) => {
-        console.log(">>> source: ", source);
-        if (!source?.includes(SourcesEnum["bbc-news"])) {
-          return { data: [] };
-        }
-
         const result: any = await fetchWithBQ({
           url: process.env.REACT_APP_NEWSAPI_URL || "",
           params: {
@@ -59,28 +54,11 @@ export const newsApi = createApi({
           return { error: result.error };
         }
 
-        console.log(">>> RESUKLT: ", result);
         const normalisedData = normaliseNewsAPIData(result.data.articles);
         return {
-          data: filterNewsAPIBySource(normalisedData, source),
+          data: filterNewsAPIBySource(normalisedData, sources),
         };
       },
-      // query: ({ query, from, to, category }) => ({
-      //   url: process.env.REACT_APP_NEWSAPI_URL || "",
-      //   params: {
-      //     q: query || "all",
-      //     apiKey: process.env.REACT_APP_NEWSAPI_KEY,
-      //     pageSize: 10,
-      //     sortBy: "publishedAt",
-      //     startDate: from,
-      //     // endDate: to,
-      //     category: category === CATEGORY_ID["all"] ? "" : category,
-      //   },
-      // }),
-      // transformResponse: (response: any, _, { source }) => {
-      //   const normalisedData = normaliseNewsAPIData(response.articles);
-      //   return filterNewsAPIBySource(normalisedData, source);
-      // },
     }),
 
     fetchGuardianNews: builder.query<
@@ -90,10 +68,19 @@ export const newsApi = createApi({
         from: string;
         to: string;
         category?: CategoryId;
-        source?: SourceId;
+        sources: SourceId[];
       }
     >({
-      query: ({ query, from, to, category }) => {
+      queryFn: async (
+        { query, from, to, category, sources },
+        _queryApi,
+        _extraOptions,
+        fetchWithBQ
+      ) => {
+        if (!sources.includes(SourcesEnum["guardian"])) {
+          return { data: [] };
+        }
+
         let params = {
           "api-key": process.env.REACT_APP_GUARDIAN_API_KEY,
           "show-fields": "all",
@@ -110,13 +97,18 @@ export const newsApi = createApi({
           params.section = category;
         }
 
-        return {
+        const result: any = await fetchWithBQ({
           url: process.env.REACT_APP_GUARDIAN_API_URL || "",
           params,
+        });
+
+        if (result.error) {
+          return { error: result.error };
+        }
+
+        return {
+          data: normaliseGuardianNewsData(result.data.response.results),
         };
-      },
-      transformResponse: (response: any) => {
-        return normaliseGuardianNewsData(response.response.results);
       },
     }),
 
@@ -127,23 +119,39 @@ export const newsApi = createApi({
         from: string;
         to: string;
         category?: CategoryId;
-        source?: SourceId;
+        sources: SourceId[];
       }
     >({
-      query: ({ query, from, to, category }) => ({
-        url: process.env.REACT_APP_NYT_API_URL || "",
-        params: {
-          query: query,
-          "api-key": process.env.REACT_APP_NYT_API_KEY,
-          fq: category,
-          sort: "newest",
-          page: 0,
-          begin_date: from,
-          end_date: to,
-        },
-      }),
-      transformResponse: (response: any) => {
-        return normaliseNYTNewsData(response.response.docs);
+      queryFn: async (
+        { query, from, to, category, sources },
+        _queryApi,
+        _extraOptions,
+        fetchWithBQ
+      ) => {
+        if (!sources.includes(SourcesEnum["nyt"])) {
+          return { data: [] };
+        }
+
+        const result: any = await fetchWithBQ({
+          url: process.env.REACT_APP_NYT_API_URL || "",
+          params: {
+            query: query,
+            "api-key": process.env.REACT_APP_NYT_API_KEY,
+            fq: category,
+            sort: "newest",
+            page: 0,
+            begin_date: from,
+            end_date: to,
+          },
+        });
+
+        if (result.error) {
+          return { error: result.error };
+        }
+
+        return {
+          data: normaliseNYTNewsData(result.data.response.docs),
+        };
       },
     }),
   }),

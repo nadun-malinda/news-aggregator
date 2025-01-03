@@ -1,5 +1,3 @@
-export type SourceId = (typeof SOURCES)[number]["id"];
-
 export const enum SourcesEnum {
   "all" = "all",
   "nyt" = "nyt",
@@ -24,3 +22,4 @@ export const SOURCES = [
 
 export type Source = (typeof SOURCES)[number];
 export type SourceName = Source["name"];
+export type SourceId = Source["id"];

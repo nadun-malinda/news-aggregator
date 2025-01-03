@@ -19,7 +19,6 @@ export function Search() {
 
     // Update the search query in the store
     dispatch(setQuery(queryInUrl));
-    console.log(">>> searchParams: ", searchParams.get("q"));
   }, [dispatch, searchParams]);
 
   const debouncedCallback = useDebouncedCallback(

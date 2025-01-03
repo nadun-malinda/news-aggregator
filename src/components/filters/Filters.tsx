@@ -20,7 +20,7 @@ import { CATEGORIES, CategoryEnum, type CategoryId } from "@/consts/categories";
 import { useEffect } from "react";
 
 const FormSchema = z.object({
-  date: z.date().optional(),
+  date: z.date(),
   sources: z
     .array(z.enum(SOURCES.map((source) => source.id) as [SourceId]))
     .refine((value) => value.some((item) => item)),
@@ -146,10 +146,7 @@ export function Filters() {
 
           <Button
             type="submit"
-            disabled={
-              Object.keys(form.formState.errors).length > 0 ||
-              !form.formState.isDirty
-            }
+            disabled={Object.keys(form.formState.errors).length > 0}
           >
             Apply Filters
           </Button>

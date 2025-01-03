@@ -1,17 +1,15 @@
-import { RootState } from "@/state/store";
-import { useSelector } from "react-redux";
+import { useFilters } from "@/hooks/useFilters";
 import { useFetchGuardianNewsQuery } from "@/services/newsApi";
 
 export function useGuardianNewsData() {
-  const query = useSelector((state: RootState) => state.search.query);
-  const filters = useSelector((state: RootState) => state.filters);
+  const { from, to, query, sources, category } = useFilters();
 
-  const { from, to, category } = filters;
   const { data: guardianNewsData, isFetching: isFetchingGuardianNews } =
     useFetchGuardianNewsQuery({
-      query,
-      from,
       to,
+      from,
+      query,
+      sources,
       category,
     });
 

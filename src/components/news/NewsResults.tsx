@@ -1,17 +1,11 @@
-import { useAggregatedNews } from "@/hooks/useAggregatedNews";
+import { Article } from "@/services/newsApi";
 import { format } from "date-fns";
 import { useEffect } from "react";
 
-export function NewsFeed() {
-  const { data: news, isFetching } = useAggregatedNews();
-
+export function NewsResults({ news }: { news: Article[] }) {
   useEffect(() => {
     console.log(">>> news: ", news);
   }, [news]);
-
-  if (isFetching) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <>

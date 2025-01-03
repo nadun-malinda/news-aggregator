@@ -9,7 +9,7 @@ const store = configureStore({
     [newsApi.reducerPath]: newsApi.reducer,
     search: searchReducer,
     filters: filtersReducer,
-    savedFilter: savedFilterReducer,
+    savedFilters: savedFilterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(newsApi.middleware),
