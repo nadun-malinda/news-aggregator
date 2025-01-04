@@ -7,16 +7,26 @@ import {
   setSource,
   setTo,
 } from "@/state/filterSlice";
-import { DatePicker } from "../ui/date-picker";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { DatePicker } from "@/shared/ui/date-picker";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/shared/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { SOURCES, type SourceId } from "@/consts/sources";
-import { CATEGORIES, CategoryEnum, type CategoryId } from "@/consts/categories";
+import { Button } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
+import { SOURCES, type SourceId } from "@/shared/consts/sources";
+import {
+  CATEGORIES,
+  CategoryEnum,
+  type CategoryId,
+} from "@/shared/consts/categories";
 import { useEffect, useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 

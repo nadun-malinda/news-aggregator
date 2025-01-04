@@ -1,4 +1,4 @@
-import { SourceId, SourcesEnum } from "@/consts/sources";
+import { SourceId, SourcesEnum } from "@/shared/consts/sources";
 import { Article } from "@/services/newsApi";
 
 export function filterNewsAPIBySource(

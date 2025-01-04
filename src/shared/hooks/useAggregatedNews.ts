@@ -1,8 +1,8 @@
-import { sortByDate } from "@/lib/utils/sort";
+import { sortByDate } from "@/shared/utils/sort";
 import { type Article } from "@/services/newsApi";
-import { useNewsAPIData } from "@/hooks/useNewsAPIData";
-import { useNYTNewsData } from "@/hooks/useNYTNewsData";
-import { useGuardianNewsData } from "@/hooks/useGuardianNewsData";
+import { useNewsAPIData } from "@/shared/hooks/useNewsAPIData";
+import { useNYTNewsData } from "@/shared/hooks/useNYTNewsData";
+import { useGuardianNewsData } from "@/shared/hooks/useGuardianNewsData";
 
 export function useAggregatedNews(): {
   data: Article[];

@@ -1,6 +1,6 @@
 import { NewsResults } from "@/components/news/NewsResults";
 import { Personalize } from "@/components/personalize/Personalize";
-import { useAggregatedNews } from "@/hooks/useAggregatedNews";
+import { useAggregatedNews } from "@/shared/hooks/useAggregatedNews";
 
 export function NewsFeedPage() {
   const { data: news, isFetching } = useAggregatedNews();

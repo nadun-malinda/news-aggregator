@@ -1,5 +1,5 @@
-import { Input } from "@/components/ui/input";
-import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
+import { Input } from "@/shared/ui/input";
+import { useDebouncedCallback } from "@/shared/hooks/useDebouncedCallback";
 import { useDispatch } from "react-redux";
 import { setQuery } from "@/state/searchSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";

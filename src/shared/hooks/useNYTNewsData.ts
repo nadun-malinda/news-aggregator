@@ -1,4 +1,4 @@
-import { useFilters } from "@/hooks/useFilters";
+import { useFilters } from "@/shared/hooks/useFilters";
 import { useFetchNYTNewsQuery } from "@/services/newsApi";
 
 export function useNYTNewsData() {

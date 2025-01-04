@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router";
 import { Search } from "../search/Search";
-import { Toaster } from "../ui/sonner";
+import { Toaster } from "@/shared/ui/sonner";
 
 export function Layout() {
   return (

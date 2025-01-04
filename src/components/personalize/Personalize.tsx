@@ -1,10 +1,16 @@
 import { z } from "zod";
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { SourceId, SOURCES } from "@/consts/sources";
-import { CATEGORIES, CategoryId } from "@/consts/categories";
+import { Button } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/shared/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
+import { SourceId, SOURCES } from "@/shared/consts/sources";
+import { CATEGORIES, CategoryId } from "@/shared/consts/categories";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";

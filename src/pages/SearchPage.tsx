@@ -1,6 +1,6 @@
 import { Filters } from "@/components/filters/Filters";
 import { NewsResults } from "@/components/news/NewsResults";
-import { useAggregatedNews } from "@/hooks/useAggregatedNews";
+import { useAggregatedNews } from "@/shared/hooks/useAggregatedNews";
 
 export function SearchPage() {
   const { data: news, isFetching } = useAggregatedNews();

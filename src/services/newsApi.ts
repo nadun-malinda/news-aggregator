@@ -1,9 +1,13 @@
-import { CategoryEnum, CategoryId } from "@/consts/categories";
-import { type SourceId, type Source, SourcesEnum } from "@/consts/sources";
-import { filterNewsAPIBySource } from "@/lib/utils/filterNewsAPIBySource";
-import { normaliseGuardianNewsData } from "@/lib/utils/normaliseGuardianNewsData";
-import { normaliseNewsAPIData } from "@/lib/utils/normaliseNewsAPIData";
-import { normaliseNYTNewsData } from "@/lib/utils/normaliseNYTNewsData";
+import { CategoryEnum, CategoryId } from "@/shared/consts/categories";
+import {
+  type SourceId,
+  type Source,
+  SourcesEnum,
+} from "@/shared/consts/sources";
+import { filterNewsAPIBySource } from "@/shared/utils/filterNewsAPIBySource";
+import { normaliseGuardianNewsData } from "@/shared/utils/normaliseGuardianNewsData";
+import { normaliseNewsAPIData } from "@/shared/utils/normaliseNewsAPIData";
+import { normaliseNYTNewsData } from "@/shared/utils/normaliseNYTNewsData";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Article {
