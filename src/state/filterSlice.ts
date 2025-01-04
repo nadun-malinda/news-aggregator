@@ -1,6 +1,6 @@
 import { CategoryEnum, CategoryId } from "@/shared/consts/categories";
 import { SOURCES, type SourceId } from "@/shared/consts/sources";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { format } from "date-fns";
 
 interface FiltersState {

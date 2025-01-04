@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSavedFilter } from "@/state/savedFilterSlice";
 import { RootState } from "@/state/store";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FilterFormLayout } from "../layout/FilterFormLayout";
 import { SourcesFormField } from "../forms/SourcesFormField";
 import { CategoryFormField } from "../forms/CategoryFormField";
