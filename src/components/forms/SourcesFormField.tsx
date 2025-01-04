@@ -12,7 +12,9 @@ export function SourcesFormField() {
       name="sources"
       render={() => (
         <FormItem>
-          <FormLabel className="flex flex-col">Sources</FormLabel>
+          <FormLabel className="flex flex-col uppercase mb-3 font-semibold">
+            Sources
+          </FormLabel>
 
           {SOURCES.map((source) => (
             <FormField

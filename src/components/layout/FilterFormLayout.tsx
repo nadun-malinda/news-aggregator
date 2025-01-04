@@ -8,7 +8,7 @@ export const FilterFormLayout = ({
   isOpen,
   toggleOpen,
 }: {
-  title: string;
+  title?: string;
   children: ReactNode;
   isOpen: boolean;
   toggleOpen: () => void;
@@ -28,7 +28,7 @@ export const FilterFormLayout = ({
       }`}
     >
       <div className="flex justify-between items-center mb-4">
-        <p>{title}</p>
+        {title && <p className="text-sm opacity-80 capitalize">{title}</p>}
         <Button
           variant="outline"
           size="icon"

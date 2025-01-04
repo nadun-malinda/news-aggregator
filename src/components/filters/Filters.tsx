@@ -68,13 +68,15 @@ export function Filters() {
       toggleOpen={() => setMobileFiltersOpen(!mobileFiltersOpen)}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex flex-col">Date</FormLabel>
+                <FormLabel className="flex flex-col uppercase mb-1 font-semibold">
+                  Date
+                </FormLabel>
                 <DatePicker selected={field.value} onSelect={field.onChange} />
               </FormItem>
             )}

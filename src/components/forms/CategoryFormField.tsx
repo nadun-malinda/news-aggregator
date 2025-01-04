@@ -12,7 +12,9 @@ export function CategoryFormField() {
       name="category"
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="flex flex-col">Categories</FormLabel>
+          <FormLabel className="flex flex-col uppercase mb-3 font-semibold">
+            Categories
+          </FormLabel>
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}

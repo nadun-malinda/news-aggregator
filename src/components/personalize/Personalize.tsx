@@ -57,12 +57,12 @@ export function Personalize() {
 
   return (
     <FilterFormLayout
-      title="Personalize"
+      title="Personalize your feed"
       isOpen={mobileFiltersOpen}
       toggleOpen={() => setMobileFiltersOpen(!mobileFiltersOpen)}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <SourcesFormField />
           <CategoryFormField />
 
