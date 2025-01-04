@@ -9,6 +9,14 @@ export function useFilters() {
   const filters = useSelector((state: RootState) => state.filters);
   const savedFilters = useSelector((state: RootState) => state.savedFilters);
 
+  const getCategory = () => {
+    if (location.pathname === "/") {
+      return savedFilters.category;
+    }
+
+    return filters.category;
+  };
+
   const getSources = () => {
     if (location.pathname === "/") {
       return savedFilters.sources;
@@ -22,6 +30,6 @@ export function useFilters() {
     to: filters.to,
     from: filters.from,
     sources: getSources(),
-    category: filters.category,
+    category: getCategory(),
   };
 }

@@ -21,17 +21,11 @@ const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    setFrom(state, action: PayloadAction<string>) {
-      state.from = action.payload;
-    },
-    setTo(state, action: PayloadAction<string>) {
-      state.to = action.payload;
-    },
-    setCategory(state, action: PayloadAction<CategoryId>) {
-      state.category = action.payload;
-    },
-    setSource(state, action: PayloadAction<SourceId[]>) {
-      state.sources = action.payload;
+    setFilters(state, action) {
+      state.from = action.payload.from;
+      state.to = action.payload.to;
+      state.category = action.payload.category;
+      state.sources = action.payload.sources;
     },
     resetFilters(state) {
       Object.assign(state, initialState);
@@ -39,17 +33,5 @@ const filtersSlice = createSlice({
   },
 });
 
-export const { setFrom, setTo, setCategory, setSource, resetFilters } =
-  filtersSlice.actions;
-
-export const selectFilters = (state: { filters: FiltersState }) =>
-  state.filters;
-export const selectFrom = (state: { filters: FiltersState }) =>
-  state.filters.from;
-export const selectTo = (state: { filters: FiltersState }) => state.filters.to;
-export const selectCategory = (state: { filters: FiltersState }) =>
-  state.filters.category;
-export const selectSource = (state: { filters: FiltersState }) =>
-  state.filters.sources;
-
+export const { setFilters, resetFilters } = filtersSlice.actions;
 export default filtersSlice.reducer;
