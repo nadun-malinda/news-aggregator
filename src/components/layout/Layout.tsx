@@ -1,5 +1,6 @@
 import { Outlet, Link } from "react-router";
 import { Search } from "../search/Search";
+import { Toaster } from "../ui/sonner";
 
 export function Layout() {
   return (
@@ -13,6 +14,7 @@ export function Layout() {
       </div>
       <main>
         <Outlet />
+        <Toaster />
       </main>
     </div>
   );

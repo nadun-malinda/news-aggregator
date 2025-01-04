@@ -17,7 +17,8 @@ import { Checkbox } from "../ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { SOURCES, type SourceId } from "@/consts/sources";
 import { CATEGORIES, CategoryEnum, type CategoryId } from "@/consts/categories";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SlidersHorizontal, X } from "lucide-react";
 
 const FormSchema = z.object({
   date: z.date(),
@@ -28,6 +29,7 @@ const FormSchema = z.object({
 });
 
 export function Filters() {
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const dispatch = useDispatch();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -51,107 +53,145 @@ export function Filters() {
     dispatch(setTo(date));
     dispatch(setCategory(data.category));
     dispatch(setSource(data.sources));
+
+    setMobileFiltersOpen(!mobileFiltersOpen);
   };
 
   return (
-    <div className="sticky top-4">
-      <p className="mb-4">Apply more filters</p>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex flex-col">Date</FormLabel>
-                <DatePicker selected={field.value} onSelect={field.onChange} />
-              </FormItem>
-            )}
-          />
+    <div className="sticky top-0">
+      <Button
+        variant="outline"
+        size="icon"
+        className="md:hidden"
+        onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+      >
+        <SlidersHorizontal />
+      </Button>
 
-          <FormField
-            control={form.control}
-            name="sources"
-            render={() => (
-              <FormItem>
-                <FormLabel className="flex flex-col">Sources</FormLabel>
+      <div
+        className={`md:sticky md:top-4 fixed top-0 bg-white w-full h-full p-4 transition-['left'] md:p-0 ${
+          mobileFiltersOpen ? "left-0" : "-left-full"
+        }`}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <p className="mb-4">Apply more filters</p>
+          <Button
+            variant="outline"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+          >
+            <X />
+          </Button>
+        </div>
 
-                {SOURCES.map((source) => (
-                  <FormField
-                    key={source.id}
-                    control={form.control}
-                    name="sources"
-                    render={({ field }) => {
-                      return (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex flex-col">Date</FormLabel>
+                  <DatePicker
+                    selected={field.value}
+                    onSelect={field.onChange}
+                  />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="sources"
+              render={() => (
+                <FormItem>
+                  <FormLabel className="flex flex-col">Sources</FormLabel>
+
+                  {SOURCES.map((source) => (
+                    <FormField
+                      key={source.id}
+                      control={form.control}
+                      name="sources"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={source.id}
+                            className="flex flex-row items-center space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(source.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([
+                                        ...field.value,
+                                        source.id,
+                                      ])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== source.id
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm font-normal">
+                              {source.name}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex flex-col">Categories</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value || CATEGORIES[0].id}
+                      className="flex flex-col space-y-1"
+                    >
+                      {CATEGORIES.map((category) => (
                         <FormItem
-                          key={source.id}
-                          className="flex flex-row items-center space-x-3 space-y-0"
+                          key={category.id}
+                          className="flex items-center space-x-3 space-y-0"
                         >
                           <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(source.id)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, source.id])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== source.id
-                                      )
-                                    );
-                              }}
-                            />
+                            <RadioGroupItem value={category.id} />
                           </FormControl>
-                          <FormLabel className="text-sm font-normal">
-                            {source.name}
+                          <FormLabel className="font-normal">
+                            {category.name}
                           </FormLabel>
                         </FormItem>
-                      );
-                    }}
-                  />
-                ))}
-              </FormItem>
-            )}
-          />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex flex-col">Categories</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    value={field.value || CATEGORIES[0].id}
-                    className="flex flex-col space-y-1"
-                  >
-                    {CATEGORIES.map((category) => (
-                      <FormItem
-                        key={category.id}
-                        className="flex items-center space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <RadioGroupItem value={category.id} />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {category.name}
-                        </FormLabel>
-                      </FormItem>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <Button
-            type="submit"
-            disabled={Object.keys(form.formState.errors).length > 0}
-          >
-            Apply Filters
-          </Button>
-        </form>
-      </Form>
+            <Button
+              type="submit"
+              disabled={
+                !form.formState.isValid ||
+                form.formState.isSubmitting ||
+                !form.formState.isDirty
+              }
+            >
+              Apply Filters
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }

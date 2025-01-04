@@ -10,7 +10,7 @@ export function NewsResults({ news }: { news: Article[] }) {
   return (
     <>
       <p className="mb-4">{`Showing ${news.length} results`}</p>
-      <div className="grid md:grid-cols-3 gap-4 my-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
         {news.map((article) => (
           <a
             key={article.id}
@@ -36,6 +36,7 @@ export function NewsResults({ news }: { news: Article[] }) {
                   {format(article.publishedAt || "", "yyyy-MM-dd")}
                 </p>
                 <p className="text-sm">{article.category}</p>
+                <p className="text-sm">{article.author}</p>
               </div>
             </div>
           </a>

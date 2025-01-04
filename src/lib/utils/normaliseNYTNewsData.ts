@@ -13,7 +13,9 @@ export function normaliseNYTNewsData(data: any[]): Article[] {
     image:
       article.multimedia[0]?.url &&
       `https://www.nytimes.com/${article.multimedia[0]?.url}`,
-    author: article.byline.original,
+    author: `${article.byline.person[0]?.firstname || ""} ${
+      article.byline.person[0]?.lastname || ""
+    }`,
     category: article.news_desk,
     publishedAt: article.pub_date,
     url: article.web_url,
