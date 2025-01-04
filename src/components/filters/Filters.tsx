@@ -87,7 +87,7 @@ export function Filters() {
             type="submit"
             disabled={
               !form.formState.isDirty ||
-              !form.formState.isValid ||
+              Object.keys(form.formState.errors).length > 0 ||
               form.formState.isSubmitting
             }
           >
