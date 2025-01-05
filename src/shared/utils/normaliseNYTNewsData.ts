@@ -3,7 +3,7 @@ import { type Article } from "@/services/newsApi";
 
 export function normaliseNYTNewsData(data: any[]): Article[] {
   return data.map((article: any) => ({
-    id: crypto.randomUUID(),
+    id: article._id,
     source: {
       id: SourcesEnum["nyt"],
       name: "The New York Times",

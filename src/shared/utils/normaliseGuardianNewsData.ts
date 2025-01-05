@@ -45,7 +45,7 @@ export function normaliseGuardianNewsData(
     const fields = article.fields || {};
 
     return {
-      id: crypto.randomUUID(),
+      id: article.id,
       source: {
         id: SourcesEnum["guardian"],
         name: "The Guardian",
