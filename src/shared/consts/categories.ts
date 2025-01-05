@@ -10,6 +10,14 @@ export const CATEGORIES = [
     name: "Business",
   },
   {
+    id: CategoryEnum["politics"],
+    name: "Politics",
+  },
+  {
+    id: CategoryEnum["music"],
+    name: "Music",
+  },
+  {
     id: CategoryEnum["entertainment"],
     name: "Entertainment",
   },
