@@ -34,6 +34,14 @@ export interface Article {
   url: string | null;
 }
 
+interface FetchNewsQueryParams {
+  to?: string;
+  from?: string;
+  query: string;
+  sources: SourceId[];
+  category?: CategoryId[];
+}
+
 const API_CONFIG = {
   NEWS_API_URL: process.env.REACT_APP_NEWSAPI_URL || "",
   NEWS_API_KEY: process.env.REACT_APP_NEWSAPI_KEY || "",
@@ -72,8 +80,8 @@ const fetchWithNormalization = async (
   return { data: normalizeFn(result.data) };
 };
 
-export const newsApi = createApi({
-  reducerPath: "newsApi",
+export const aggregatedNewsApi = createApi({
+  reducerPath: "aggregatedNewsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/" }),
   endpoints: (builder) => ({
     /**
@@ -87,16 +95,7 @@ export const newsApi = createApi({
      *   sources: ["bbc-news"],
      * });
      */
-    fetchNewsAPI: builder.query<
-      Article[],
-      {
-        query: string;
-        from?: string;
-        to?: string;
-        category?: CategoryId;
-        sources: SourceId[];
-      }
-    >({
+    fetchNewsAPI: builder.query<Article[], FetchNewsQueryParams>({
       queryFn: async (
         { query, from, to, category, sources },
         _queryApi,
@@ -108,11 +107,13 @@ export const newsApi = createApi({
         const params = {
           q: query || "all",
           apiKey: API_CONFIG.NEWS_API_KEY,
-          pageSize: 10,
+          pageSize: 100, // Increase the chances to get BBC news :(
           sortBy: "publishedAt",
           from: from,
           to: to,
-          category: category === CategoryEnum["all"] ? undefined : category,
+          category: category?.includes(CategoryEnum["all"])
+            ? undefined
+            : category?.join(","),
         };
 
         return fetchWithNormalization(
@@ -136,16 +137,7 @@ export const newsApi = createApi({
      *   sources: ["guardian"],
      * });
      */
-    fetchGuardianNews: builder.query<
-      Article[],
-      {
-        query: string;
-        from?: string;
-        to?: string;
-        category?: CategoryId;
-        sources: SourceId[];
-      }
-    >({
+    fetchGuardianNews: builder.query<Article[], FetchNewsQueryParams>({
       queryFn: async (
         { query, from, to, category, sources },
         _queryApi,
@@ -156,17 +148,18 @@ export const newsApi = createApi({
 
         const params: Record<string, any> = {
           "api-key": API_CONFIG.GUARDIAN_API_KEY,
-          "show-fields": "all",
-          "show-blocks": "all",
+          "show-fields":
+            "id,webTitle,bodyText,thumbnail,byline,sectionName,webPublicationDate,webUrl",
           "page-size": 10,
           "order-by": "newest",
           q: query && `"${query}"`,
           "from-date": from,
           "to-date": to,
-          "show-tags": "all",
         };
 
-        if (category !== CategoryEnum["all"]) params.section = category;
+        if (!category?.includes(CategoryEnum["all"])) {
+          params.section = category?.join(",");
+        }
 
         return fetchWithNormalization(
           fetchWithBQ,
@@ -188,16 +181,7 @@ export const newsApi = createApi({
      *   sources: ["nyt"],
      * });
      */
-    fetchNYTNews: builder.query<
-      Article[],
-      {
-        query: string;
-        from?: string;
-        to?: string;
-        category?: CategoryId;
-        sources: SourceId[];
-      }
-    >({
+    fetchNYTNews: builder.query<Article[], FetchNewsQueryParams>({
       queryFn: async (
         { query, from, to, category, sources },
         _queryApi,
@@ -209,10 +193,9 @@ export const newsApi = createApi({
         const params = {
           query,
           "api-key": API_CONFIG.NYT_API_KEY,
-          fq:
-            category !== CategoryEnum["all"]
-              ? `news_desk:("${category}")`
-              : undefined,
+          fq: category?.includes(CategoryEnum["all"])
+            ? undefined
+            : `news_desk:("${category?.join(",")}")`,
           sort: "newest",
           page: 0,
           begin_date: from,
@@ -234,4 +217,4 @@ export const {
   useFetchNewsAPIQuery,
   useFetchGuardianNewsQuery,
   useFetchNYTNewsQuery,
-} = newsApi;
+} = aggregatedNewsApi;

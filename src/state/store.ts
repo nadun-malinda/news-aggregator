@@ -1,4 +1,4 @@
-import { newsApi } from "@/services/newsApi";
+import { aggregatedNewsApi } from "@/services/newsApi";
 import { configureStore } from "@reduxjs/toolkit";
 import searchReducer from "./searchSlice";
 import filtersReducer from "./filterSlice";
@@ -6,13 +6,13 @@ import savedFilterReducer from "./savedFilterSlice";
 
 const store = configureStore({
   reducer: {
-    [newsApi.reducerPath]: newsApi.reducer,
+    [aggregatedNewsApi.reducerPath]: aggregatedNewsApi.reducer,
     search: searchReducer,
     filters: filtersReducer,
     savedFilters: savedFilterReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(newsApi.middleware),
+    getDefaultMiddleware().concat(aggregatedNewsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
