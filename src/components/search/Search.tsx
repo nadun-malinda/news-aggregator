@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 
 export function Search() {
   const dispatch = useDispatch();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
 
   useEffect(() => {
