@@ -74,9 +74,9 @@ export function Filters() {
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex flex-col uppercase mb-1 font-semibold">
+                <p className="flex flex-col uppercase mb-1 font-semibold">
                   Date
-                </FormLabel>
+                </p>
                 <DatePicker selected={field.value} onSelect={field.onChange} />
               </FormItem>
             )}
