@@ -1,4 +1,5 @@
 import { Article } from "@/services/newsApi";
+import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
 import { format } from "date-fns";
 import { useEffect } from "react";
 
@@ -33,7 +34,7 @@ export function NewsResults({ news }: { news: Article[] }) {
               <div>
                 <p className="text-sm">{article.source.name}</p>
                 <p className="text-sm">
-                  {format(article.publishedAt || "", "yyyy-MM-dd")}
+                  {format(article.publishedAt || "", DEFAULT_DATE_FORMAT)}
                 </p>
                 <p className="text-sm">{article.category}</p>
                 <p className="text-sm">{article.author}</p>

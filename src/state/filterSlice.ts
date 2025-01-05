@@ -1,4 +1,5 @@
 import { CategoryEnum, CategoryId } from "@/shared/consts/categories";
+import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
 import { SOURCES, type SourceId } from "@/shared/consts/sources";
 import { createSlice } from "@reduxjs/toolkit";
 import { format } from "date-fns";
@@ -12,7 +13,7 @@ interface FiltersState {
 
 const initialState: FiltersState = {
   from: undefined,
-  to: format(new Date(), "yyyy-MM-dd"),
+  to: format(new Date(), DEFAULT_DATE_FORMAT),
   category: CategoryEnum["all"],
   sources: SOURCES.map((source) => source.id),
 };
