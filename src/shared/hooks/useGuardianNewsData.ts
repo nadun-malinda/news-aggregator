@@ -1,5 +1,5 @@
 import { useFilters } from "@/shared/hooks/useFilters";
-import { useFetchGuardianNewsQuery } from "@/services/newsApi";
+import { useFetchGuardianNewsQuery } from "@/services/aggregatedNewsApi";
 
 export function useGuardianNewsData() {
   const { from, to, query, sources, category } = useFilters();

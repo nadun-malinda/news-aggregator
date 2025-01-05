@@ -1,5 +1,5 @@
 import { sortByDate } from "@/shared/utils/sort";
-import { type Article } from "@/services/newsApi";
+import { type Article } from "@/services/aggregatedNewsApi";
 import { useNewsAPIData } from "@/shared/hooks/useNewsAPIData";
 import { useNYTNewsData } from "@/shared/hooks/useNYTNewsData";
 import { useGuardianNewsData } from "@/shared/hooks/useGuardianNewsData";

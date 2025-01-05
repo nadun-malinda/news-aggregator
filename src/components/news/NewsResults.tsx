@@ -1,4 +1,4 @@
-import { Article } from "@/services/newsApi";
+import { Article } from "@/services/aggregatedNewsApi";
 import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
 import { format } from "date-fns";
 import { useEffect } from "react";

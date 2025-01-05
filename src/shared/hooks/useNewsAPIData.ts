@@ -1,5 +1,5 @@
 import { useFilters } from "@/shared/hooks/useFilters";
-import { useFetchNewsAPIQuery } from "@/services/newsApi";
+import { useFetchNewsAPIQuery } from "@/services/aggregatedNewsApi";
 
 export function useNewsAPIData() {
   const { from, to, query, sources, category } = useFilters();

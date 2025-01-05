@@ -1,4 +1,4 @@
-import { aggregatedNewsApi } from "@/services/newsApi";
+import { aggregatedNewsApi } from "@/services/aggregatedNewsApi";
 import { configureStore } from "@reduxjs/toolkit";
 import searchReducer from "./searchSlice";
 import filtersReducer from "./filterSlice";
