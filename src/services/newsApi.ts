@@ -91,14 +91,14 @@ export const newsApi = createApi({
       Article[],
       {
         query: string;
-        from: string;
-        to: string;
+        from?: string;
+        to?: string;
         category?: CategoryId;
         sources: SourceId[];
       }
     >({
       queryFn: async (
-        { query, from, category, sources },
+        { query, from, to, category, sources },
         _queryApi,
         _extraOptions,
         fetchWithBQ
@@ -110,7 +110,8 @@ export const newsApi = createApi({
           apiKey: API_CONFIG.NEWS_API_KEY,
           pageSize: 10,
           sortBy: "publishedAt",
-          startDate: from,
+          from: from,
+          to: to,
           category: category === CategoryEnum["all"] ? undefined : category,
         };
 
@@ -139,14 +140,14 @@ export const newsApi = createApi({
       Article[],
       {
         query: string;
-        from: string;
-        to: string;
+        from?: string;
+        to?: string;
         category?: CategoryId;
         sources: SourceId[];
       }
     >({
       queryFn: async (
-        { query, from, category, sources },
+        { query, from, to, category, sources },
         _queryApi,
         _extraOptions,
         fetchWithBQ
@@ -159,8 +160,9 @@ export const newsApi = createApi({
           "show-blocks": "all",
           "page-size": 10,
           "order-by": "newest",
-          q: query,
+          q: query && `"${query}"`,
           "from-date": from,
+          "to-date": to,
           "show-tags": "all",
         };
 
@@ -190,14 +192,14 @@ export const newsApi = createApi({
       Article[],
       {
         query: string;
-        from: string;
-        to: string;
+        from?: string;
+        to?: string;
         category?: CategoryId;
         sources: SourceId[];
       }
     >({
       queryFn: async (
-        { query, from, category, sources },
+        { query, from, to, category, sources },
         _queryApi,
         _extraOptions,
         fetchWithBQ
@@ -207,10 +209,14 @@ export const newsApi = createApi({
         const params = {
           query,
           "api-key": API_CONFIG.NYT_API_KEY,
-          section_name: category,
+          fq:
+            category !== CategoryEnum["all"]
+              ? `news_desk:("${category}")`
+              : undefined,
           sort: "newest",
           page: 0,
           begin_date: from,
+          end_date: to,
         };
 
         return fetchWithNormalization(

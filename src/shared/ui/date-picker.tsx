@@ -9,12 +9,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 export function DatePicker({
   selected,
   onSelect,
+  maxDate,
 }: {
   selected?: Date;
   onSelect: (date: Date | undefined) => void;
+  maxDate?: Date;
 }) {
-  //   const [date, setDate] = useState<Date | undefined>(new Date());
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -34,7 +34,9 @@ export function DatePicker({
           mode="single"
           selected={selected}
           onSelect={onSelect}
-          disabled={(date) => date > new Date()}
+          disabled={(date) =>
+            date > new Date() || (maxDate ? date > maxDate : false)
+          }
           initialFocus
         />
       </PopoverContent>

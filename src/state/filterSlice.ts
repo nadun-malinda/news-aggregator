@@ -4,14 +4,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { format } from "date-fns";
 
 interface FiltersState {
-  from: string;
+  from?: string;
   to: string;
   category: CategoryId;
   sources: SourceId[];
 }
 
 const initialState: FiltersState = {
-  from: format(new Date(), "yyyy-MM-dd"),
+  from: undefined,
   to: format(new Date(), "yyyy-MM-dd"),
   category: CategoryEnum["all"],
   sources: SOURCES.map((source) => source.id),

@@ -23,7 +23,7 @@ export const FilterFormLayout = ({
       <SlidersHorizontal />
     </Button>
     <div
-      className={`md:sticky md:top-4 fixed top-0 bg-white w-full h-full p-4 transition-['left'] md:p-0 ${
+      className={`md:sticky overflow-auto md:top-4 fixed top-0 bg-white w-full h-full p-4 transition-['left'] md:p-0 ${
         isOpen ? "left-0" : "-left-full"
       }`}
     >

@@ -2,7 +2,7 @@ import { format, startOfToday } from "date-fns";
 import { useDispatch } from "react-redux";
 import { setFilters, resetFilters } from "@/state/filterSlice";
 import { DatePicker } from "@/shared/ui/date-picker";
-import { Form, FormField, FormItem, FormLabel } from "@/shared/ui/form";
+import { Form, FormField, FormItem } from "@/shared/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,7 +20,8 @@ import { SourcesFormField } from "../forms/SourcesFormField";
 import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
 
 const FormSchema = z.object({
-  date: z.date(),
+  from: z.date().optional(),
+  to: z.date(),
   sources: z
     .array(z.enum(SOURCES.map((source) => source.id) as [SourceId]))
     .refine((value) => value.some((item) => item)),
@@ -34,7 +35,8 @@ export function Filters() {
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     defaultValues: {
-      date: startOfToday(),
+      from: undefined,
+      to: startOfToday(),
       sources: SOURCES.map((source) => source.id),
       category: CategoryEnum["all"],
     },
@@ -47,12 +49,13 @@ export function Filters() {
   }, [dispatch]);
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    const date = format(data.date || "", DEFAULT_DATE_FORMAT);
+    const fromDate = data.from && format(data.from, DEFAULT_DATE_FORMAT);
+    const toDate = format(data.to || "", DEFAULT_DATE_FORMAT);
 
     dispatch(
       setFilters({
-        from: date,
-        to: date,
+        from: fromDate,
+        to: toDate,
         category: data.category,
         sources: data.sources,
       })
@@ -69,18 +72,51 @@ export function Filters() {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem>
-                <p className="flex flex-col uppercase mb-1 font-semibold">
-                  Date
-                </p>
-                <DatePicker selected={field.value} onSelect={field.onChange} />
-              </FormItem>
-            )}
-          />
+          <div>
+            <p className="flex flex-col uppercase mb-2 font-semibold">Date</p>
+
+            <div className="flex flex-col gap-2">
+              {/* From Date Picker */}
+              <FormField
+                control={form.control}
+                name="from"
+                render={({ field }) => (
+                  <FormItem>
+                    <p className="text-sm">From</p>
+                    <DatePicker
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      maxDate={form.getValues("to")}
+                    />
+                  </FormItem>
+                )}
+              />
+
+              {/* To Date Picker */}
+              <FormField
+                control={form.control}
+                name="to"
+                render={({ field }) => (
+                  <FormItem>
+                    <p className="text-sm">To</p>
+                    <DatePicker
+                      selected={field.value}
+                      onSelect={(date) => {
+                        field.onChange(date);
+
+                        // Adjust "from" date if it's after the new "to" date
+                        const fromDate = form.getValues("from");
+
+                        if (fromDate && date && fromDate > date) {
+                          form.setValue("from", undefined); // Reset "from" date
+                        }
+                      }}
+                    />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
 
           <SourcesFormField />
           <CategoryFormField />
