@@ -1,5 +1,5 @@
 import { SourcesEnum } from "@/shared/consts/sources";
-import { type Article } from "@/services/aggregatedNewsApi";
+import { Article } from "@/types/article";
 
 /**
  * Normalizes The Guardian news data into a standard format.

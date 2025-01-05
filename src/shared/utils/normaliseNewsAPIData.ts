@@ -1,4 +1,4 @@
-import { type Article } from "@/services/aggregatedNewsApi";
+import { Article } from "@/types/article";
 
 export function normaliseNewsAPIData(data: any[]): Article[] {
   return data.map((article: any) => ({

@@ -1,46 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {
-  type SourceId,
-  type Source,
-  SourcesEnum,
-} from "@/shared/consts/sources";
-import { CategoryEnum, type CategoryId } from "@/shared/consts/categories";
+import { SourcesEnum } from "@/shared/consts/sources";
+import { CategoryEnum } from "@/shared/consts/categories";
 import { filterNewsAPIBySource } from "@/shared/utils/filterNewsAPIBySource";
 import { normaliseGuardianNewsData } from "@/shared/utils/normaliseGuardianNewsData";
 import { normaliseNewsAPIData } from "@/shared/utils/normaliseNewsAPIData";
 import { normaliseNYTNewsData } from "@/shared/utils/normaliseNYTNewsData";
-
-/**
- * A normalized representation of a news article.
- */
-export interface Article {
-  /** Unique identifier for the article. */
-  id: string;
-  /** Source of the article, e.g., BBC, Guardian, NYT. */
-  source: Source;
-  /** Title of the article. */
-  title: string;
-  /** Content or excerpt of the article (nullable). */
-  content: string | null;
-  /** URL to the article's image (nullable). */
-  image: string | null;
-  /** Author of the article (nullable). */
-  author: string | null;
-  /** Associated category of the article (nullable). */
-  category: string | null;
-  /** Publication date of the article (nullable). */
-  publishedAt: string | null;
-  /** URL to the full article (nullable). */
-  url: string | null;
-}
-
-interface FetchNewsQueryParams {
-  to?: string;
-  from?: string;
-  query: string;
-  sources: SourceId[];
-  category?: CategoryId[];
-}
+import { Article, FetchNewsQueryParams } from "@/types/article";
 
 const API_CONFIG = {
   NEWS_API_URL: process.env.REACT_APP_NEWSAPI_URL || "",
