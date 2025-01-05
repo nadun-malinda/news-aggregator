@@ -23,7 +23,6 @@ export function Search() {
 
   const debouncedCallback = useDebouncedCallback(
     ({ searchText }: { searchText: string }) => {
-      console.log(">>> DEBOUNCING...");
       dispatch(setQuery(searchText));
       navigate(`/search?q=${searchText}`);
     },
