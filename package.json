@@ -37,7 +37,6 @@
     "start": "craco start --legacy-peer-deps",
     "build": "craco build",
     "test": "craco test",
-    "test:e2e": "playwright test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -60,6 +59,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
