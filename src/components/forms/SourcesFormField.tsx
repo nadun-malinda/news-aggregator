@@ -40,7 +40,7 @@ export function SourcesFormField() {
                         }}
                       />
                     </FormControl>
-                    <FormLabel className="text-sm font-normal">
+                    <FormLabel className="text-sm font-normal cursor-pointer">
                       {source.name}
                     </FormLabel>
                   </FormItem>
