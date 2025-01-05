@@ -1,38 +1,47 @@
-import { CATEGORIES } from "@/shared/consts/categories";
+import { CATEGORIES, CategoryEnum } from "@/shared/consts/categories";
 import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
+import { Checkbox } from "@/shared/ui/checkbox";
 import { useFormContext } from "react-hook-form";
+import { useCategorySelection } from "@/shared/hooks/useCategorySelection";
 
 export function CategoryFormField() {
   const form = useFormContext();
+  const { handleCategoryChange } = useCategorySelection(form);
+  const categories = form.watch("category") || [];
+
+  // Check if "All" is selected or if all individual categories are selected
+  const isAllSelected = categories.includes(CategoryEnum.all);
 
   return (
     <FormField
       control={form.control}
       name="category"
-      render={({ field }) => (
+      render={() => (
         <FormItem>
           <p className="flex flex-col uppercase mb-3 font-semibold">
             Categories
           </p>
           <FormControl>
-            <RadioGroup
-              onValueChange={field.onChange}
-              value={field.value || CATEGORIES[0].id}
-              className="flex flex-col space-y-1"
-            >
+            <div className="flex flex-col space-y-3">
               {CATEGORIES.map((category) => (
                 <FormItem
                   key={category.id}
                   className="flex items-center space-x-3 space-y-0"
                 >
                   <FormControl>
-                    <RadioGroupItem value={category.id} />
+                    <Checkbox
+                      checked={
+                        isAllSelected || categories.includes(category.id) // Ensure "All" reflects all others
+                      }
+                      onCheckedChange={(checked) =>
+                        handleCategoryChange(checked as boolean, category.id)
+                      }
+                    />
                   </FormControl>
                   <FormLabel className="font-normal">{category.name}</FormLabel>
                 </FormItem>
               ))}
-            </RadioGroup>
+            </div>
           </FormControl>
         </FormItem>
       )}

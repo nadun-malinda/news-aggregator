@@ -24,8 +24,14 @@ const FormSchema = z.object({
   to: z.date(),
   sources: z
     .array(z.enum(SOURCES.map((source) => source.id) as [SourceId]))
-    .refine((value) => value.some((item) => item)),
-  category: z.enum(CATEGORIES.map((category) => category.id) as [CategoryId]),
+    .refine((value) => value.length > 0, {
+      message: "At least one source must be selected.",
+    }),
+  category: z
+    .array(z.enum(CATEGORIES.map((category) => category.id) as [CategoryId]))
+    .refine((value) => value.length > 0, {
+      message: "At least one category must be selected.",
+    }),
 });
 
 export function Filters() {
@@ -38,7 +44,7 @@ export function Filters() {
       from: undefined,
       to: startOfToday(),
       sources: SOURCES.map((source) => source.id),
-      category: CategoryEnum["all"],
+      category: [CategoryEnum["all"]],
     },
   });
 

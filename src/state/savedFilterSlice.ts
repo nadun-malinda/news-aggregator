@@ -3,7 +3,7 @@ import { SourceId, SourcesEnum } from "@/shared/consts/sources";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface SavedFilter {
-  category: CategoryId;
+  category: CategoryId[];
   sources: SourceId[];
   authors: string[];
 }
@@ -13,7 +13,7 @@ const savedFilters = localStorage.getItem("savedFilters");
 const initialState: SavedFilter = savedFilters
   ? JSON.parse(savedFilters)
   : {
-      category: CategoryEnum["all"],
+      category: [CategoryEnum["all"]],
       sources: [
         SourcesEnum["nyt"],
         SourcesEnum["bbc-news"],

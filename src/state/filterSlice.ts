@@ -7,14 +7,14 @@ import { format } from "date-fns";
 interface FiltersState {
   from?: string;
   to: string;
-  category: CategoryId;
+  category: CategoryId[];
   sources: SourceId[];
 }
 
 const initialState: FiltersState = {
   from: undefined,
   to: format(new Date(), DEFAULT_DATE_FORMAT),
-  category: CategoryEnum["all"],
+  category: [CategoryEnum["all"]],
   sources: SOURCES.map((source) => source.id),
 };
 
