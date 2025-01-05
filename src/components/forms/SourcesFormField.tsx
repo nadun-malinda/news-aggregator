@@ -1,7 +1,8 @@
-import { SOURCES, SourcesEnum } from "@/shared/consts/sources";
+import { SOURCES } from "@/shared/consts/sources";
 import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui/form";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { useFormContext } from "react-hook-form";
+import { SourcesEnum } from "@/types/source";
 
 export function SourcesFormField() {
   const form = useFormContext();

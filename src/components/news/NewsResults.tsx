@@ -1,13 +1,9 @@
+import { PLACEHOLDER_IMAGE_URL } from "@/shared/config/imageConfig";
 import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
 import { Article } from "@/types/article";
 import { format } from "date-fns";
-import { useEffect } from "react";
 
 export function NewsResults({ news }: { news: Article[] }) {
-  useEffect(() => {
-    console.log(">>> news: ", news);
-  }, [news]);
-
   return (
     <>
       <p className="mb-4">{`Showing ${news.length} results`}</p>
@@ -22,7 +18,7 @@ export function NewsResults({ news }: { news: Article[] }) {
           >
             <div className="h-[250px] md:h-[180px] overflow-hidden rounded-lg">
               <img
-                src={article.image || "https://placehold.co/600x400@2x.png"}
+                src={article.image || PLACEHOLDER_IMAGE_URL}
                 alt={article.title}
                 className="w-full aspect-auto rounded-md"
               />

@@ -7,17 +7,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/shared/ui/button";
-import { SOURCES, type SourceId } from "@/shared/consts/sources";
-import {
-  CATEGORIES,
-  CategoryEnum,
-  type CategoryId,
-} from "@/shared/consts/categories";
+import { SOURCES } from "@/shared/consts/sources";
+import { CATEGORIES } from "@/shared/consts/categories";
 import { useEffect, useState } from "react";
 import { FilterFormLayout } from "../layout/FilterFormLayout";
 import { CategoryFormField } from "../forms/CategoryFormField";
 import { SourcesFormField } from "../forms/SourcesFormField";
 import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
+import { CategoryEnum, CategoryId } from "@/types/category";
+import { SourceId } from "@/types/source";
 
 const FormSchema = z.object({
   from: z.date().optional(),

@@ -1,5 +1,5 @@
-import { SourceId, SourcesEnum } from "@/shared/consts/sources";
 import { Article } from "@/types/article";
+import { SourceId, SourcesEnum } from "@/types/source";
 
 export function filterNewsAPIBySource(
   articles: Article[],

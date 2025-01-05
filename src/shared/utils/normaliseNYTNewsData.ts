@@ -1,5 +1,5 @@
-import { SourcesEnum } from "@/shared/consts/sources";
 import { Article } from "@/types/article";
+import { SourcesEnum } from "@/types/source";
 
 export function normaliseNYTNewsData(data: any[]): Article[] {
   return data.map((article: any) => ({

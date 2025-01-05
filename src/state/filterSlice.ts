@@ -1,6 +1,7 @@
-import { CategoryEnum, CategoryId } from "@/shared/consts/categories";
 import { DEFAULT_DATE_FORMAT } from "@/shared/consts/date";
-import { SOURCES, type SourceId } from "@/shared/consts/sources";
+import { SOURCES } from "@/shared/consts/sources";
+import { CategoryEnum, CategoryId } from "@/types/category";
+import { SourceId } from "@/types/source";
 import { createSlice } from "@reduxjs/toolkit";
 import { format } from "date-fns";
 

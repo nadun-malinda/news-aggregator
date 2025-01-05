@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { Button } from "@/shared/ui/button";
 import { Form } from "@/shared/ui/form";
-import { SourceId, SOURCES } from "@/shared/consts/sources";
-import { CATEGORIES, CategoryId } from "@/shared/consts/categories";
+import { SOURCES } from "@/shared/consts/sources";
+import { CATEGORIES } from "@/shared/consts/categories";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,8 @@ import { useState } from "react";
 import { FilterFormLayout } from "../layout/FilterFormLayout";
 import { SourcesFormField } from "../forms/SourcesFormField";
 import { CategoryFormField } from "../forms/CategoryFormField";
+import { CategoryId } from "@/types/category";
+import { SourceId } from "@/types/source";
 
 const FormSchema = z.object({
   sources: z

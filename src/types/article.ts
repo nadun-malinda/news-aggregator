@@ -1,5 +1,5 @@
-import { CategoryId } from "@/shared/consts/categories";
-import { Source, SourceId } from "@/shared/consts/sources";
+import { CategoryId } from "./category";
+import { Source, SourceId } from "./source";
 
 /**
  * A normalized representation of a news article.

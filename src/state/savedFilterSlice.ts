@@ -1,5 +1,5 @@
-import { CategoryEnum, CategoryId } from "@/shared/consts/categories";
-import { SourceId, SourcesEnum } from "@/shared/consts/sources";
+import { CategoryEnum, CategoryId } from "@/types/category";
+import { SourceId, SourcesEnum } from "@/types/source";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface SavedFilter {

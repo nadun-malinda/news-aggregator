@@ -1,4 +1,5 @@
-import { CATEGORIES, CategoryEnum } from "@/shared/consts/categories";
+import { CATEGORIES } from "@/shared/consts/categories";
+import { CategoryEnum } from "@/types/category";
 import { UseFormReturn } from "react-hook-form";
 
 const NON_ALL_CATEGORIES = CATEGORIES.filter(

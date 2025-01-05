@@ -1,9 +1,4 @@
-export const enum SourcesEnum {
-  "all" = "all",
-  "nyt" = "nyt",
-  "bbc-news" = "bbc-news",
-  "guardian" = "guardian",
-}
+import { SourcesEnum } from "@/types/source";
 
 export const SOURCES = [
   {
@@ -19,7 +14,3 @@ export const SOURCES = [
     name: "The Guardian",
   },
 ] as const;
-
-export type Source = (typeof SOURCES)[number];
-export type SourceName = Source["name"];
-export type SourceId = Source["id"];

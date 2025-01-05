@@ -1,8 +1,9 @@
-import { CATEGORIES, CategoryEnum } from "@/shared/consts/categories";
+import { CATEGORIES } from "@/shared/consts/categories";
 import { FormControl, FormField, FormItem, FormLabel } from "@/shared/ui/form";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { useFormContext } from "react-hook-form";
 import { useCategorySelection } from "@/shared/hooks/useCategorySelection";
+import { CategoryEnum } from "@/types/category";
 
 export function CategoryFormField() {
   const form = useFormContext();

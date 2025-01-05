@@ -1,9 +1,9 @@
 import { fetchWithNormalization } from "@/shared/utils/fetchWithNormalization";
 import { API_CONFIG } from "@/shared/config/apiConfig";
 import { FetchNewsQueryParams } from "@/types/article";
-import { SourcesEnum } from "@/shared/consts/sources";
-import { CategoryEnum } from "@/shared/consts/categories";
 import { normaliseGuardianNewsData } from "@/shared/utils/normaliseGuardianNewsData";
+import { CategoryEnum } from "@/types/category";
+import { SourcesEnum } from "@/types/source";
 
 /**
  * Fetches articles from The Guardian API and normalizes the data.

@@ -3,8 +3,8 @@ import { filterNewsAPIBySource } from "@/shared/utils/filterNewsAPIBySource";
 import { normaliseNewsAPIData } from "@/shared/utils/normaliseNewsAPIData";
 import { API_CONFIG } from "@/shared/config/apiConfig";
 import { FetchNewsQueryParams } from "@/types/article";
-import { SourcesEnum } from "@/shared/consts/sources";
-import { CategoryEnum } from "@/shared/consts/categories";
+import { CategoryEnum } from "@/types/category";
+import { SourcesEnum } from "@/types/source";
 
 /**
  * Fetches news articles from the News API and normalizes the data.
