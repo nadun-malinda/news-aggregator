@@ -6,6 +6,35 @@ const NON_ALL_CATEGORIES = CATEGORIES.filter(
   (cat) => cat.id !== CategoryEnum.all
 ).map((cat) => cat.id);
 
+/**
+ * Custom hook to manage category selection in a form.
+ *
+ * This hook handles the selection logic for categories, including:
+ * - The "All" category, which represents selecting or deselecting all categories.
+ * - Individual category toggling and its interaction with the "All" category.
+ *
+ * The hook ensures that:
+ * - Selecting "All" deselects all other categories.
+ * - Selecting all individual categories automatically selects "All."
+ * - Toggling any category when "All" is selected removes "All" and selects the remaining categories.
+ *
+ * @param {UseFormReturn<any>} form - The React Hook Form instance used to manage form state.
+ *
+ * @returns {Object} An object containing:
+ *   - `handleCategoryChange` (Function): A function to handle category selection changes.
+ *      - @param {boolean} checked - Whether the category is being selected or deselected.
+ *      - @param {string} categoryId - The ID of the category being toggled.
+ *
+ * @example
+ * // Example usage in a React component:
+ * const form = useForm();
+ * const { handleCategoryChange } = useCategorySelection(form);
+ *
+ * <input
+ *   type="checkbox"
+ *   onChange={(e) => handleCategoryChange(e.target.checked, categoryId)}
+ * />
+ */
 export function useCategorySelection(form: UseFormReturn<any>) {
   const handleCategoryChange = async (checked: boolean, categoryId: string) => {
     const currentCategories = form.getValues("category") || [];
