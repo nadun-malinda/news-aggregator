@@ -150,3 +150,14 @@ This project is containarized using Docker and can be run using Docker Compose c
 The application will be available at:
 
 http://localhost:3000/ 🚀
+
+## Test using Jest/RTL
+
+1. Locate into `app` service
+   ```bash
+   docker-compose exec app sh
+   ```
+2. Run test using `yarn`
+   ```bash
+   yarn test
+   ```
