@@ -1,46 +1,152 @@
-# Getting Started with Create React App
+# News Aggregator Frontend App with ReactJS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Live Preview
 
-## Available Scripts
+Deployed on Vercel:  
+[https://news-aggregator-cyan-mu.vercel.app/](https://news-aggregator-cyan-mu.vercel.app/)
 
-In the project directory, you can run:
+> **Note:** Some functionalities may be limited in the production preview due to API restrictions.
 
-### `yarn start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tech and Tools
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **TypeScript**
+- **ReactJS**
+- **Redux / Redux Toolkit / RTK Query**
+- **Tailwind CSS**
+- **ShadCN**
+- **Docker**
+- **Jest / React Testing Library**
+- **ESLint**
 
-### `yarn test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure Breakdown
 
-### `yarn build`
+```pl
+news-aggregator/
+├── public/                # Static assets such as images, fonts, and favicon
+├── src/                   # Main source code for the application
+│   ├── __mocks__/         # Mock files for testing
+│   ├── components/        # Components used in the app
+│   │   ├── filters/       # Components for filtering articles after search
+│   │   ├── forms/         # Form components for user input
+│   │   ├── layout/        # Shared layout components
+│   │   ├── news/          # News article display components
+│   │   ├── personalize/   # Components for personalized news feed
+│   │   ├── search/        # Components for search functionality
+│   ├── pages/             # Top-level pages of the application
+│   │   ├── NewsFeedPage.tsx   # Main news feed page
+│   │   ├── SearchPage.tsx     # Page for article search
+│   ├── services/          # API service files for interacting with external news sources
+│   │   ├── endpoints/     # Handlers for individual news APIs
+│   │   │   ├── fetchGuardianNews.ts   # The Guardian API
+│   │   │   ├── fetchNewsAPINews.ts    # News API
+│   │   │   ├── fetchNYTNews.ts        # New York Times API
+│   │   ├── aggregatedNewsApi.ts       # Combines and aggregates data from all APIs
+│   ├── shared/            # Shared utilities, constants, and hooks
+│   │   ├── config/        # Configuration files
+│   │   ├── consts/        # Application-wide constants
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── ui/            # Shared UI components
+│   │   ├── utils/         # Utility functions
+│   ├── state/             # Redux store and slices for global state management
+│   │   ├── articleSlice.ts        # Articles slice
+│   │   ├── filterSlice.ts         # Filters slice
+│   │   ├── savedFilterSlice.ts    # Personalized filters slice
+│   │   ├── searchSlice.ts         # Search slice
+│   │   ├── store.ts               # Redux store setup
+│   ├── types/             # TypeScript type definitions
+│   │   ├── article.ts     # News article types
+│   │   ├── category.ts    # News categories
+│   │   ├── source.ts      # News sources
+│   ├── App.tsx            # Root React component
+│   ├── App.test.tsx       # Unit tests for the app
+│   ├── index.css          # Global styles
+│   ├── index.tsx          # Entry point of the app
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.ts
+│   ├── setupTests.ts
+├── .dockerignore          # Excluded files for Docker
+├── .env.example           # Example environment variables file
+├── .env.local             # Local environment variables
+├── .eslintrc.js           # ESLint configuration
+├── docker-compose.yml     # Docker Compose setup
+├── Dockerfile             # Docker container configuration
+├── tailwind.config.js     # TailwindCSS configuration
+├── tsconfig.json          # TypeScript configuration
+├── yarn.lock
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Obtain API Keys
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project consumes three public news APIs (The Guardian, The New York Times, NewsAPI) to fetch data from. To run the project localy, you have to obtain relevant API Keys from the API providres.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### The New York Times
 
-### `yarn eject`
+1. Follow the instrcutions in the "Get Started" section in The New York Times Developer Portal [here](https://developer.nytimes.com/get-started)
+2. After verifying your email, sign in again.
+3. Then then you hav eto register your app. To do that, click on your email (top right coner) and then "Apps" [here](https://developer.nytimes.com/my-apps)
+4. Here you can add your app name
+5. Important: Make sure to `enable` the `Article Search API` in the APIs section.
+6. Upon suuceesfull form save, you can get the API key!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### The Guardian
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Register for The Guardian News API [here](https://bonobo.capi.gutools.co.uk/register/developer)
+2. Then obtain an API Key
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### NewsAPI
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Register for NewsAPI API Key [here](https://newsapi.org/register)
+2. After successful registration, you'll get your API Key.
 
-## Learn More
+## Project setup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Clone this repository:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   git clone https://github.com/your-username/news-aggregator.git
+
+   cd news-aggregator
+   ```
+
+2. Create a `.env.local` file in the root directory. Copy the content from `.env.example` and add the relevant API keys obtained in the previous step.
+
+## Up and Run the Project
+
+This project is containerized. You can run it locally using `Docker` or `Yarn`.
+
+### Using Docker
+
+This project is containarized using Docker and can be run using Docker Compose comands:
+
+1. Build and start the project:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Stop the project:
+
+   ```bash
+   docker-compose down
+   ```
+
+### Using Yarn
+
+1. Install dependencies
+   ```bash
+   yarn install
+   ```
+2. Start the development server
+   ```bash
+   yarn start
+   ```
+
+## Access the project:
+
+The application will be available at:
+
+http://localhost:3000/ 🚀
