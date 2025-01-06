@@ -39,7 +39,7 @@ export function CategoryFormField() {
                       }
                     />
                   </FormControl>
-                  <FormLabel className="font-normal cursor-pointer">
+                  <FormLabel className="text-lg md:py-0 md:text-sm font-normal cursor-pointer">
                     {category.name}
                   </FormLabel>
                 </FormItem>

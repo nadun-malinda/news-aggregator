@@ -28,6 +28,7 @@ export function SourcesFormField() {
                   >
                     <FormControl>
                       <Checkbox
+                        className=""
                         checked={field.value?.includes(source.id)}
                         onCheckedChange={(checked) => {
                           return checked
@@ -40,7 +41,7 @@ export function SourcesFormField() {
                         }}
                       />
                     </FormControl>
-                    <FormLabel className="text-sm font-normal cursor-pointer">
+                    <FormLabel className="text-lg md:py-0 md:text-sm font-normal cursor-pointer">
                       {source.name}
                     </FormLabel>
                   </FormItem>
